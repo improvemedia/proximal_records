@@ -24,7 +24,17 @@ module ProximalRecords
         }
 
         a = ActiveRecord::Base.connection.select_one(query)
-        [(klass.find_by_id(a['previous_id'])), (klass.find_by_id(a['next_id']))]
+
+        previous_record, next_record = [(klass.find_by_id(a['previous_id'])), (klass.find_by_id(a['next_id']))]
+
+        case scope.count
+          when 1
+            [nil, nil]
+          when 2
+            [next_record || previous_record] * 2
+          else
+            [previous_record || scope.last, next_record || scope.first]
+        end
       end
     end
   end
