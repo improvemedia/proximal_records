@@ -4,7 +4,7 @@ module ProximalRecords
       def proximal_records(scope)
         klass = self.class
 
-        orders = scope.orders.map(&:to_sql).join(', ')
+        orders = scope.orders.map{ |o| o.try(:to_sql) }.join(', ')
 
         orders = "OVER(#{"ORDER BY #{orders}" if orders.present?})"
         primary_key = "#{klass.table_name}.#{klass.primary_key}"
