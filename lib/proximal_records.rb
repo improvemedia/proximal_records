@@ -4,6 +4,7 @@ require 'active_support/core_ext/string'
 
 require 'proximal_records/adapters/mysql2'
 require 'proximal_records/adapters/postgresql'
+require 'proximal_records/adapters/postgis'
 
 module ProximalRecords
   def self.included(base)
